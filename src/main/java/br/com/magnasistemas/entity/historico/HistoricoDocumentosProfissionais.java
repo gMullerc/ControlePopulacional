@@ -12,20 +12,24 @@ import jakarta.persistence.Table;
 public class HistoricoDocumentosProfissionais {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "PK_DOCUMENTO_PROFISSIONAL")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(unique = true)
+
+	@Column
+	private Long idDocumentoProfissional;
+
+	@Column
 	private String pis;
-	@Column(unique = true)
+	@Column
 	private String carteiraDeTrabalho;
 
 	public HistoricoDocumentosProfissionais() {
 		super();
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdDocumentoProfissional(Long idDocumentoProfissional) {
+		this.idDocumentoProfissional = idDocumentoProfissional;
 	}
 
 	public void setPis(String pis) {
@@ -36,16 +40,4 @@ public class HistoricoDocumentosProfissionais {
 		this.carteiraDeTrabalho = carteiraDeTrabalho;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public String getPis() {
-		return pis;
-	}
-
-	public String getCarteiraDeTrabalho() {
-		return carteiraDeTrabalho;
-	}
 }
-

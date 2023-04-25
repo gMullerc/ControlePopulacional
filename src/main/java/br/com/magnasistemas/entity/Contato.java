@@ -1,5 +1,4 @@
 package br.com.magnasistemas.entity;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Table(name = "CONTATOS")
 @Entity
@@ -18,12 +18,15 @@ public class Contato {
 	private Long id;
 	@Column
 	@NotNull
+	@Pattern(regexp = "(^[0-9]{2})?(\\s|-)?(9?[0-9]{5})-?([0-9]{4}$)")
 	private String celular;
 	@Column
 	@NotNull
+	@Pattern(regexp = "(^[0-9]{2})?(\\s|-)?(9?[0-9]{4})-?([0-9]{4}$)")
 	private String telefone;
 	@Column
 	@NotNull
+	@Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")
 	private String email;
 
 	public Contato() {

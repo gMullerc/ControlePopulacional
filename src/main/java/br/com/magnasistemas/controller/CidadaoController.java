@@ -29,15 +29,14 @@ public class CidadaoController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Cidadao> cadastrar(
-		 @RequestBody @Valid Cidadao dados) {
-		service.criarCidadao(dados); 
-		return ResponseEntity.status(HttpStatus.CREATED).build(); 
+	public ResponseEntity<Cidadao> cadastrar(@RequestBody @Valid Cidadao dados) {
+		service.criarCidadao(dados);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
 	@GetMapping
 	public ResponseEntity<Page<Cidadao>> procurar(@PageableDefault(size = 10, sort = "id") Pageable paginacao) {
-		
+
 		return ResponseEntity.status(HttpStatus.OK).body(service.listagem(paginacao));
 	}
 

@@ -1,7 +1,7 @@
 package br.com.magnasistemas.entity.historico;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,13 +30,17 @@ import jakarta.validation.constraints.NotNull;
 public class HistoricoPessoa extends Entidade<HistoricoPessoa, Long> {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "PK_HIST_PESSOA")
 	protected Long id;
 
 	@Column
-	@NotNull
-	protected LocalDateTime timeStamp;
+	protected Long idPessoa;
+
+	@Column
+	protected ZonedDateTime timeStamp;
+	@Column
+	protected ZonedDateTime lastModify;
 
 	@Column
 	@NotNull
@@ -62,90 +66,41 @@ public class HistoricoPessoa extends Entidade<HistoricoPessoa, Long> {
 	@JoinColumn(name = "FK_HIST_PESSOAS")
 	protected List<HistoricoContato> historicoContato = new ArrayList<>();
 
-	public Long getId() {
-		return id;
-	}
-	@Override
-	public LocalDateTime getTimeStamp() {
-		return timeStamp;
-	}
-
-	@Override
-	public void setTimeStamp(LocalDateTime timeStamp) {
-		this.timeStamp = timeStamp;
-	}
-
-	public List<HistoricoEndereco> getHistoricoEndereco() {
-		return historicoEndereco;
-	}
-
-	public void setHistoricoEndereco(List<HistoricoEndereco> historicoEndereco) {
-		this.historicoEndereco = historicoEndereco;
-	}
-
-	public List<HistoricoContato> getHistoricoContato() {
-		return historicoContato;
-	}
-
-	public void setHistoricoContato(List<HistoricoContato> historicoContato) {
-		this.historicoContato = historicoContato;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
+	
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public LocalDate getDataDeNascimento() {
-		return dataDeNascimento;
 	}
 
 	public void setDataDeNascimento(LocalDate dataDeNascimento) {
 		this.dataDeNascimento = dataDeNascimento;
 	}
 
-	public Etnia getEtnia() {
-		return etnia;
-	}
-
 	public void setEtnia(Etnia etnia) {
 		this.etnia = etnia;
-	}
-
-	public Genero getGenero() {
-		return genero;
 	}
 
 	public void setGenero(Genero genero) {
 		this.genero = genero;
 	}
 
-	public List<HistoricoEndereco> getEndereco() {
-		return historicoEndereco;
+	public void setHistoricoEndereco(List<HistoricoEndereco> historicoEndereco) {
+		this.historicoEndereco = historicoEndereco;
 	}
 
-	public void setEndereco(List<HistoricoEndereco> endereco) {
-		this.historicoEndereco = endereco;
-	}
 
-	public List<HistoricoContato> getContato() {
-		return historicoContato;
-	}
-
-	public void setContato(List<HistoricoContato> contato) {
-		this.historicoContato = contato;
+	public void setHistoricoContato(List<HistoricoContato> historicoContato) {
+		this.historicoContato = historicoContato;
 	}
 
 	@Override
-	public String getUsuario() {
-		return usuario;
+	public Long getId() {
+		return this.idPessoa;
+	}
+	
+	@Override
+	public void setId(Long id) {
+		this.idPessoa = id;
 	}
 
 }

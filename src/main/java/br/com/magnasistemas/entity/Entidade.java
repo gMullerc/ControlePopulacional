@@ -1,6 +1,6 @@
 package br.com.magnasistemas.entity;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -9,20 +9,36 @@ public abstract class Entidade<T, ID> {
 	@JsonIgnore
 	protected String usuario = "Guilherme";
 
-	private LocalDateTime timeStamp;
+	protected ZonedDateTime timeStamp;
+	@JsonIgnore
+	protected ZonedDateTime lastModify;
 
-	public LocalDateTime getTimeStamp() {
+	public ZonedDateTime getTimeStamp() {
 		return timeStamp;
 	}
 
-	public void setTimeStamp(LocalDateTime timeStamp) {
+	public void setTimeStamp(ZonedDateTime timeStamp) {
 		this.timeStamp = timeStamp;
 	}
 
-	public abstract ID getId();
+	public void setLastModify(ZonedDateTime lastModify) {
+		this.lastModify = lastModify;
+	}
 
-	public abstract void setId(ID id);
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 
-	public abstract String getUsuario();
+	public String getUsuario() {
+		return usuario;
+	}
 
-}
+	public abstract Long getId();
+
+
+	public abstract void setId(Long id) ;
+	
+	}
+	
+
+

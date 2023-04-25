@@ -31,7 +31,7 @@ public class ProfissionalController {
 	@Transactional
 	public ResponseEntity<Profissional> criarProfissional(@RequestBody @Valid Profissional profissional) {
 		service.criaProfissional(profissional);
-		return ResponseEntity.status(HttpStatus.CREATED).build(); 
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
 	@GetMapping
@@ -44,15 +44,13 @@ public class ProfissionalController {
 		return ResponseEntity.status(HttpStatus.OK).body(service.listarPorID(id));
 	}
 
-		
 	@PutMapping
 	@Transactional
 	public ResponseEntity<Profissional> atualizar(@RequestBody @Valid Profissional dados) {
 		service.atualizarProfissional(dados);
-
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
-	
+
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<String> deletar(@PathVariable Long id) {

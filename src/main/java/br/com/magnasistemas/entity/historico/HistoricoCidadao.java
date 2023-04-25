@@ -38,45 +38,15 @@ public class HistoricoCidadao extends HistoricoPessoa {
 	@JoinColumn(name = "FK_HIST_DOCUMENTOS")
 	protected HistoricoDocumento documentos;
 
-	public SituacaoEscolar getSituacaoEscolar() {
-		return situacaoEscolar;
-	}
-
 	public void setSituacaoEscolar(SituacaoEscolar situacaoEscolar) {
 		this.situacaoEscolar = situacaoEscolar;
-	}
-
-	public Escolaridade getEscolaridade() {
-		return escolaridade;
 	}
 
 	public void setEscolaridade(Escolaridade escolaridade) {
 		this.escolaridade = escolaridade;
 	}
 
-	public HistoricoDocumento getDocumentos() {
-		return documentos;
-	}
-
 	public void setDocumentos(HistoricoDocumento documentos) {
 		this.documentos = documentos;
 	}
-
-	@Override
-	public Long getId() {
-
-		return this.id;
-	}
-
-	@Override
-	public void setId(Long id) {
-		this.id = id;
-
-	}
-
-	@Override
-	public String getUsuario() {
-		return usuario;
-	}
-
 }

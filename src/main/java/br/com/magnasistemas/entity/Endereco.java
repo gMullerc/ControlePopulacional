@@ -1,11 +1,11 @@
 package br.com.magnasistemas.entity;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Table(name = "TB_ENDERECO")
 @Entity
@@ -19,12 +19,18 @@ public class Endereco {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "PK_ENDERECO")
 	private Long id;
+	@NotNull
 	private String logradouro;
+	@NotNull
 	private String bairro;
+	@NotNull
 	private String cep;
+	@NotNull
 	private String numero;
 	private String complemento;
+	@NotNull
 	private String cidade;
+	@NotNull
 	private String uf;
 
 	public Long getId() {
@@ -91,5 +97,4 @@ public class Endereco {
 		this.uf = uf;
 	}
 
-	
 }

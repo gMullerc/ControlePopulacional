@@ -1,11 +1,12 @@
 
-package br.com.magnasistemas.api.controller;
+package br.com.magnasistemas.controller;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import br.com.magnasistemas.entity.Cidadao;
 import br.com.magnasistemas.entity.Contato;
 import br.com.magnasistemas.entity.Documento;
-import br.com.magnasistemas.entity.DocumentosProfissionais;
 import br.com.magnasistemas.entity.Endereco;
 import br.com.magnasistemas.entity.Profissional;
 import br.com.magnasistemas.enumerator.Escolaridade;
@@ -45,8 +45,8 @@ class CidadaoControllerTest {
 	private List<Contato> criarContato() {
 		List<Contato> contatos = new ArrayList<>();
 		Contato contato = new Contato();
-		contato.setCelular("985421298");
-		contato.setTelefone("234234");
+		contato.setCelular("11 96742-3298");
+		contato.setTelefone("11 945565633");
 		contato.setEmail("Guilherme.mcosta15@gmail.com");
 		contatos.add(contato);
 		return contatos;
@@ -58,7 +58,7 @@ class CidadaoControllerTest {
 
 		endereco.setLogradouro("Chinigua");
 		endereco.setBairro("Inga");
-		endereco.setCep("05736100");
+		endereco.setCep("05736-100");
 		endereco.setCidade("São Paulo");
 		endereco.setComplemento("a");
 		endereco.setNumero("3");
@@ -69,9 +69,9 @@ class CidadaoControllerTest {
 
 	private Documento criarDocumento() {
 		Documento docs = new Documento();
-		docs.setCertidaDeNascimento("3242");
-		docs.setCpf("3242");
-		docs.setRg("3242");
+		docs.setCertidaDeNascimento("1234/82135");
+		docs.setCpf("590.355.786-23");
+		docs.setRg("53.535.535-X");
 		return docs;
 	}
 
@@ -86,6 +86,9 @@ class CidadaoControllerTest {
 		cidadao.setDocumentos(criarDocumento());
 		cidadao.setEndereco(criarEndereco());
 		cidadao.setSituacaoEscolar(SituacaoEscolar.CURSANDO);
+		cidadao.setUsuario("Jonas");
+		cidadao.setTimeStamp(ZonedDateTime.now());
+		cidadao.setLastModify(ZonedDateTime.now());
 		return cidadao;
 	}
 
@@ -101,6 +104,9 @@ class CidadaoControllerTest {
 		cidadao.setDocumentos(criarDocumento());
 		cidadao.setEndereco(criarEndereco());
 		cidadao.setSituacaoEscolar(SituacaoEscolar.CURSANDO);
+		cidadao.setUsuario("Jonas");
+		cidadao.setTimeStamp(ZonedDateTime.now());
+		cidadao.setLastModify(ZonedDateTime.now());
 		return cidadao;
 	}
 
@@ -119,9 +125,9 @@ class CidadaoControllerTest {
 
 		Cidadao dados = criarCidadao();
 		Documento docs = new Documento();
-		docs.setCpf("50054476874");
-		docs.setRg("343434343434");
-		docs.setCertidaDeNascimento("23323332");
+		docs.setCpf("500.544.768-98");
+		docs.setRg("53.034.412-X");
+		docs.setCertidaDeNascimento("1242/1221");
 		dados.setDocumentos(docs);
 		ResponseEntity<String> response = restTemplate.postForEntity("/cidadao", dados, String.class);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -135,9 +141,9 @@ class CidadaoControllerTest {
 
 		Cidadao dados = criarCidadao();
 		Documento doc = new Documento();
-		doc.setCpf("3434");
-		doc.setCertidaDeNascimento("23299");
-		doc.setRg("23234");
+		doc.setCpf("550.544.768-22");
+		doc.setRg("54.034.432-X");
+		doc.setCertidaDeNascimento("1252/1221");
 		dados.setDocumentos(doc);
 		restTemplate.postForEntity("/cidadao", dados, String.class);
 		ResponseEntity<String> response = restTemplate.getForEntity("/cidadao", String.class);
@@ -149,32 +155,32 @@ class CidadaoControllerTest {
 	}
 
 	@Test
-	@DisplayName("Detalhar por id: Deve retornar OK caso o id seja inválido")
+	@DisplayName("Detalhar por id: Deve retornar OK caso o id seja Válido")
 	void testDetalharCidadaoPorIdValido() {
 		Cidadao dados = criarCidadao();
 		Documento doc = new Documento();
-		doc.setCpf("343434");
-		doc.setCertidaDeNascimento("23232");
-		doc.setRg("234234234");
+		doc.setCpf("516.544.768-32");
+		doc.setRg("23.035.412-X");
+		doc.setCertidaDeNascimento("1252/1921");
 		dados.setDocumentos(doc);
 		restTemplate.postForEntity("/cidadao", dados, String.class);
-		ResponseEntity<Cidadao> response = restTemplate.exchange("/cidadao/1", HttpMethod.GET, null, Cidadao.class);
+		ResponseEntity<Cidadao> response = restTemplate.exchange("/cidadao/2", HttpMethod.GET, null, Cidadao.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
-
+	
 	@Test
 	@DisplayName("Detalhar por id: Deve retornar Notfound caso o id seja inválido")
 	void testDetalharCidadaoPorIdInvalido() {
 
-		ResponseEntity<Cidadao> response = restTemplate.exchange("/cidadao/5", HttpMethod.GET, null, Cidadao.class);
+		ResponseEntity<Cidadao> response = restTemplate.exchange("/cidadao/15", HttpMethod.GET, null, Cidadao.class);
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 	}
 
 	@Test
 	void testAtualizarCidadao() {
-		criarCidadao();
+		Cidadao cidadao = criarCidadao();
 		Cidadao novosDados = criarCidadaoParaAtualizar();
-
+		restTemplate.postForEntity("/cidadao", cidadao, String.class);
 		ResponseEntity<Cidadao> response = restTemplate.exchange("/cidadao", HttpMethod.PUT,
 				new HttpEntity<>(novosDados), Cidadao.class);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -196,17 +202,26 @@ class CidadaoControllerTest {
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 		assertNotNull(response.getBody());
 	}
-
+	
 	@Test
 	@DisplayName("Excluir por id: Deve retornar no_content caso o exista o cidadao")
 	void testeDeletarCidadaoValido() {
 
-		criarCidadao();
+
 	
-		
-		ResponseEntity<Cidadao> response = restTemplate.exchange("/cidadao/1", HttpMethod.DELETE , null, Cidadao.class);
+		ResponseEntity<Cidadao> response = restTemplate.exchange("/cidadao/3", HttpMethod.DELETE , null, Cidadao.class);
 		
 		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+	}
+	
+	@Test
+	@DisplayName("Excluir por id: Deve retornar NOT_FOUND caso não exista o Profissional")
+	void testeDeletarProfissionalInvalido() {
+
+		ResponseEntity<Profissional> response = restTemplate.exchange("/profissional/55", HttpMethod.DELETE, null,
+				Profissional.class);
+
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 	}
 
 }

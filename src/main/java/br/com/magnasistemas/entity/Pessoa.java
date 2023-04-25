@@ -1,8 +1,11 @@
 package br.com.magnasistemas.entity;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.magnasistemas.enumerator.Etnia;
 import br.com.magnasistemas.enumerator.Genero;
@@ -32,6 +35,10 @@ public abstract class Pessoa extends Entidade<Pessoa, Long> {
 	@Column(name = "PK_PESSOA")
 	protected Long id;
 
+	@JsonIgnore
+	@Column
+	protected ZonedDateTime timeStamp;
+
 	@Column
 	@NotNull
 	@NotBlank
@@ -42,10 +49,12 @@ public abstract class Pessoa extends Entidade<Pessoa, Long> {
 	protected LocalDate dataDeNascimento;
 
 	@Column
+	@NotNull
 	protected Etnia etnia;
 
 	@Column
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	protected Genero genero;
 
 	@OneToMany(cascade = CascadeType.ALL)
@@ -96,6 +105,15 @@ public abstract class Pessoa extends Entidade<Pessoa, Long> {
 		this.endereco = endereco;
 	}
 
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public List<Contato> getContato() {
 		return contato;
 	}
@@ -103,7 +121,5 @@ public abstract class Pessoa extends Entidade<Pessoa, Long> {
 	public void setContato(List<Contato> contato) {
 		this.contato = contato;
 	}
-	
-	
 
 }

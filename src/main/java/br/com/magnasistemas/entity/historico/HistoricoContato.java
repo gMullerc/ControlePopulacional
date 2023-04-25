@@ -13,9 +13,13 @@ import jakarta.validation.constraints.NotNull;
 public class HistoricoContato {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "PK_CONTATO")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@Column
+	private Long idContato;
+
 	@Column
 	@NotNull
 	private String celular;
@@ -30,32 +34,16 @@ public class HistoricoContato {
 		super();
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getCelular() {
-		return celular;
+	public void setIdContato(Long idContato) {
+		this.idContato = idContato;
 	}
 
 	public void setCelular(String celular) {
 		this.celular = celular;
 	}
 
-	public String getTelefone() {
-		return telefone;
-	}
-
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
-	}
-
-	public String getEmail() {
-		return email;
 	}
 
 	public void setEmail(String email) {

@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "DOCUMENTO_PROFISSIONAL")
@@ -15,9 +17,13 @@ public class DocumentosProfissionais {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "PK_DOCUMENTO_PROFISSIONAL")
 	private Long id;
+	@NotNull
 	@Column(unique = true)
+	@Pattern(regexp = "^\\d{11}$")
 	private String pis;
+	@Pattern(regexp = "^\\d{11}$")
 	@Column(unique = true)
+	@NotNull
 	private String carteiraDeTrabalho;
 
 	public DocumentosProfissionais() {

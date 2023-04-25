@@ -22,22 +22,24 @@ public class Profissional extends Cidadao {
 		super();
 	}
 
-
 	@NotNull
 	@NotBlank
 	@Column
 	protected String cargo;
 	@Column
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	protected TipoDeProfissional tipoDeProfissional;
+	
 	@OneToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "FK_DOCUMENTOS_PROFISSIONAIS")
 	protected DocumentosProfissionais documentosProfissionais;
+	
+	
 	@NotNull
 	@Column
+	@NotNull
 	protected BigDecimal remuneracao;
-
-	
 
 	public String getCargo() {
 		return cargo;
@@ -71,12 +73,4 @@ public class Profissional extends Cidadao {
 		this.remuneracao = remuneracao;
 	}
 
-	@Override
-	public Long getId() {
-		return id;
-	}
-	@Override
-	public void setId(Long id) {
-		this.id = id;
-	}
 }

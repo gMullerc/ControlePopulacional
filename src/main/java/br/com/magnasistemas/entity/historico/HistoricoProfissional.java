@@ -36,45 +36,16 @@ public class HistoricoProfissional extends HistoricoCidadao {
 	@Column
 	protected BigDecimal remuneracao;
 
-	public String getCargo() {
-		return cargo;
-	}
-
 	public void setCargo(String cargo) {
 		this.cargo = cargo;
-	}
-
-	public TipoDeProfissional getTipoDeProfissional() {
-		return tipoDeProfissional;
-	}
-
-	public void setTipoDeProfissional(TipoDeProfissional tipoDeProfissional) {
-		this.tipoDeProfissional = tipoDeProfissional;
-	}
-
-	public HistoricoDocumentosProfissionais getDocumentosProfissionais() {
-		return documentosProfissionais;
 	}
 
 	public void setDocumentosProfissionais(HistoricoDocumentosProfissionais documentosProfissionais) {
 		this.documentosProfissionais = documentosProfissionais;
 	}
 
-	public BigDecimal getRemuneracao() {
-		return remuneracao;
-	}
-
 	public void setRemuneracao(BigDecimal remuneracao) {
 		this.remuneracao = remuneracao;
 	}
 
-	@Override
-	public Long getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(Long id) {
-		this.id = id;
-	}
 }

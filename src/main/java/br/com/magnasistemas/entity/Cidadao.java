@@ -14,6 +14,7 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Table(name = "TB_CIDADAOS")
 @Entity
@@ -28,17 +29,18 @@ public class Cidadao extends Pessoa {
 
 	@Column
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	protected SituacaoEscolar situacaoEscolar;
 
 	@Column
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	protected Escolaridade escolaridade;
 
 	@OneToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "FK_DOCUMENTOS")
+	@NotNull
 	protected Documento documentos;
-
-	
 
 	public SituacaoEscolar getSituacaoEscolar() {
 		return situacaoEscolar;
@@ -62,23 +64,6 @@ public class Cidadao extends Pessoa {
 
 	public void setDocumentos(Documento documentos) {
 		this.documentos = documentos;
-	}
-
-	@Override
-	public Long getId() {
-		
-		return this.id;
-	}
-
-	@Override
-	public void setId(Long id) {
-		this.id = id;
-		
-	}
-
-	@Override
-	public String getUsuario() {
-		return this.usuario;
 	}
 
 }

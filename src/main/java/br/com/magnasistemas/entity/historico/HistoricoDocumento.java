@@ -1,5 +1,4 @@
 package br.com.magnasistemas.entity.historico;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,30 +14,34 @@ public class HistoricoDocumento {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "PK_DOCUMENTO")
+	@Column(name = "PK_HIST_DOCUMENTO")
 	private Long id;
 
-	@Column(unique = true)
+	@Column
+	private Long idDocumento;
+
+	@Column
 	@NotNull
 	@NotBlank
 	private String certidaDeNascimento;
 
-	@Column(unique = true)
+	@Column
 	@NotNull
 	@NotBlank
 	private String rg;
 
-	@Column(unique = true)
-	@NotNull
-	@NotBlank
+	@Column
+	@NotNull(message = "{campo.cpf.invalido}")
+	@NotBlank(message = "{campo.cpf.invalido}")
 	private String cpf;
 
 	public HistoricoDocumento() {
 		super();
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+
+	public void setIdDocumento(Long idDocumento) {
+		this.idDocumento = idDocumento;
 	}
 
 	public void setCertidaDeNascimento(String certidaDeNascimento) {
@@ -53,20 +56,8 @@ public class HistoricoDocumento {
 		this.cpf = cpf;
 	}
 
-	public Long getId() {
-		return id;
-	}
 
-	public String getCertidaDeNascimento() {
-		return certidaDeNascimento;
-	}
 
-	public String getRg() {
-		return rg;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
+	
 
 }

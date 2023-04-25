@@ -1,5 +1,4 @@
 package br.com.magnasistemas.entity;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Table(name = "TB_DOCUMENTOS")
 @Entity
@@ -18,7 +18,7 @@ public class Documento {
 	@Column(name = "PK_DOCUMENTO")
 	private Long id;
 
-	@Column(unique = true)
+	@Column
 	@NotNull
 	@NotBlank
 	private String certidaDeNascimento;
@@ -26,11 +26,13 @@ public class Documento {
 	@Column(unique = true)
 	@NotNull
 	@NotBlank
+	@Pattern(regexp = "(^\\d{1,2}).?(\\d{3}).?(\\d{3})-?(\\d{1}|X|x$)")
 	private String rg;
 
 	@Column(unique = true)
 	@NotNull
 	@NotBlank
+	@Pattern(regexp = "(^\\d{3}\\x2E\\d{3}\\x2E\\d{3}\\x2D\\d{2}$)")
 	private String cpf;
 
 	public Documento() {

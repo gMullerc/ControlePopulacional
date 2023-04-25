@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import br.com.magnasistemas.entity.Profissional;
 import br.com.magnasistemas.exception.BadRequestExceptionHandler;
 import br.com.magnasistemas.repository.ProfissionalRepository;
+import br.com.magnasistemas.repository.historico.HistoricoProfissionalRepository;
+import br.com.magnasistemas.utils.GerarHistoricoProfissional;
 
 @Service
 public class ProfissionalService {
@@ -17,12 +19,19 @@ public class ProfissionalService {
 	@Autowired
 	private ProfissionalRepository repository;
 
+	@Autowired
+	private HistoricoProfissionalRepository historicoRepository;
+
+	@Autowired
+	private GerarHistoricoProfissional gerarHistorico;
+
 	public Profissional criaProfissional(Profissional dados) {
 
 		Profissional profissional = new Profissional();
 		profissional.setNome(dados.getNome());
 		profissional.setDataDeNascimento(dados.getDataDeNascimento());
 		profissional.setEtnia(dados.getEtnia());
+		profissional.setDocumentos(dados.getDocumentos());
 		profissional.setGenero(dados.getGenero());
 		profissional.setEndereco(dados.getEndereco());
 		profissional.setContato(dados.getContato());
@@ -32,8 +41,9 @@ public class ProfissionalService {
 		profissional.setRemuneracao(dados.getRemuneracao());
 		profissional.setTipoDeProfissional(dados.getTipoDeProfissional());
 		profissional.setDocumentosProfissionais(dados.getDocumentosProfissionais());
-
-		return repository.save(profissional);
+		Profissional retorno = repository.save(profissional);
+		historicoRepository.save(gerarHistorico.registrarNovoProfissional(retorno));
+		return repository.save(retorno);
 	}
 
 	public Page<Profissional> listagem(Pageable paginacao) {
@@ -61,7 +71,9 @@ public class ProfissionalService {
 		profissional.setRemuneracao(dados.getRemuneracao());
 		profissional.setTipoDeProfissional(dados.getTipoDeProfissional());
 
-		return repository.save(prof.get());
+		Profissional retorno = repository.save(prof.get());
+		historicoRepository.save(gerarHistorico.registrarNovoProfissional(retorno));
+		return repository.save(retorno);
 
 	}
 

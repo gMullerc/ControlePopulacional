@@ -1,5 +1,5 @@
 
-package br.com.magnasistemas.api.controller;
+package br.com.magnasistemas.controller;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import br.com.magnasistemas.entity.Cidadao;
 import br.com.magnasistemas.entity.Contato;
 import br.com.magnasistemas.entity.Documento;
 import br.com.magnasistemas.entity.DocumentosProfissionais;
@@ -48,9 +48,10 @@ class ProfissionalControllerTest {
 	private List<Contato> criarContato() {
 		List<Contato> contatos = new ArrayList<>();
 		Contato contato = new Contato();
-		contato.setCelular("985421297");
-		contato.setTelefone("55120429");
+		contato.setCelular("11 96742-3298");
+		contato.setTelefone("11 9455-5633");
 		contato.setEmail("Guilherme.mcosta15@hotmail.com");
+		
 		contatos.add(contato);
 		return contatos;
 	}
@@ -61,7 +62,7 @@ class ProfissionalControllerTest {
 
 		endereco.setLogradouro("Compoa");
 		endereco.setBairro("Maua");
-		endereco.setCep("05729333");
+		endereco.setCep("05736-100");
 		endereco.setCidade("São Paulo");
 		endereco.setComplemento("");
 		endereco.setNumero("10");
@@ -72,22 +73,23 @@ class ProfissionalControllerTest {
 
 	private Documento criarDocumento() {
 		Documento docs = new Documento();
-		docs.setCertidaDeNascimento("839390");
-		docs.setCpf("59937729876");
-		docs.setRg("827461239");
+		docs.setCertidaDeNascimento("1234/4233");
+		docs.setCpf("334.343.435.78");
+		docs.setRg("23.323.244.X");
 		return docs;
 	}
 
 	private DocumentosProfissionais criarDocumentoProfissional() {
 		DocumentosProfissionais docs = new DocumentosProfissionais();
-		docs.setPis("7782399");
-		docs.setCarteiraDeTrabalho("883940277283");
+		docs.setPis("12345678910");
+		docs.setCarteiraDeTrabalho("12345678910");
 		return docs;
 	}
 
 	private Profissional criarProfissional() {
 		Profissional profissional = new Profissional();
 		profissional.setNome("Guilherme");
+		profissional.setId(10l);
 		profissional.setDataDeNascimento(LocalDate.now());
 		profissional.setGenero(Genero.MASCULINO);
 		profissional.setEtnia(Etnia.PARDO);
@@ -100,12 +102,14 @@ class ProfissionalControllerTest {
 		profissional.setDocumentosProfissionais(criarDocumentoProfissional());
 		profissional.setRemuneracao(new BigDecimal(2233));
 		profissional.setTipoDeProfissional(TipoDeProfissional.CLT);
+		profissional.setTimeStamp(ZonedDateTime.now());
+		profissional.setLastModify(ZonedDateTime.now());
 		return profissional;
 	}
 
 	private Profissional criarProfissionalParaAtualizar() {
 		Profissional profissional = new Profissional();
-		profissional.setId(6l);
+		profissional.setId(2l);
 		profissional.setNome("Jonas");
 		profissional.setDataDeNascimento(LocalDate.now());
 		profissional.setGenero(Genero.MASCULINO);
@@ -117,8 +121,8 @@ class ProfissionalControllerTest {
 		profissional.setSituacaoEscolar(SituacaoEscolar.CURSANDO);
 		profissional.setCargo("Financeiro");
 		DocumentosProfissionais doc = new DocumentosProfissionais();
-		doc.setCarteiraDeTrabalho("324234");
-		doc.setPis("2342422");
+		doc.setCarteiraDeTrabalho("12345678912");
+		doc.setPis("12345678911");
 		profissional.setDocumentosProfissionais(doc);
 		profissional.setRemuneracao(new BigDecimal(5512));
 		profissional.setTipoDeProfissional(TipoDeProfissional.AUTONOMO);
@@ -137,11 +141,16 @@ class ProfissionalControllerTest {
 	@Test
 
 	@DisplayName("Cadastrar: Deve retornar um Profissional válido com status CREATED")
-	void testCadastrarCidadaoVálido() {
+	void testCadastrarProfissionalValido() {
 		Profissional dados = criarProfissional();
+		Documento documentos = new Documento();
+		documentos.setCertidaDeNascimento("1233/1234");
+		documentos.setCpf("500.544.768-12");
+		documentos.setRg("53.373-333-X");
 		DocumentosProfissionais docProfissional = new DocumentosProfissionais();
-		docProfissional.setCarteiraDeTrabalho("23233");
-		docProfissional.setPis("2342323");
+		docProfissional.setCarteiraDeTrabalho("12345678915");
+		docProfissional.setPis("12345678918");
+		dados.setDocumentos(documentos);
 		dados.setDocumentosProfissionais(docProfissional);
 		ResponseEntity<String> response = restTemplate.postForEntity("/profissional", dados, String.class);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -153,11 +162,15 @@ class ProfissionalControllerTest {
 	void testaListagemDeProfissional() {
 
 		Profissional dados = criarProfissional();
-		Documento doc = new Documento();
-		doc.setCpf("50054476879");
-		doc.setCertidaDeNascimento("232323");
-		doc.setRg("324423424");
-		dados.setDocumentos(doc);
+		Documento documentos = new Documento();
+		documentos.setCertidaDeNascimento("1243/1254");
+		documentos.setCpf("500.544.763-22");
+		documentos.setRg("53.373-332-X");
+		DocumentosProfissionais docProfissional = new DocumentosProfissionais();
+		docProfissional.setCarteiraDeTrabalho("12345678920");
+		docProfissional.setPis("12345678924");
+		dados.setDocumentos(documentos);
+		dados.setDocumentosProfissionais(docProfissional);
 		restTemplate.postForEntity("/profissional", dados, String.class);
 		ResponseEntity<String> response = restTemplate.getForEntity("/profissional", String.class);
 
@@ -171,11 +184,17 @@ class ProfissionalControllerTest {
 	@DisplayName("Detalhar por id: Deve retornar OK caso o id seja válido")
 	void testDetalharProfissionalPorIdValido() {
 		Profissional dados = criarProfissional();
+		Documento documentos = new Documento();
+		documentos.setCertidaDeNascimento("1243/1221");
+		documentos.setCpf("500.544.763-22");
+		documentos.setRg("53.373-332-X");
 		DocumentosProfissionais docProfissional = new DocumentosProfissionais();
-		docProfissional.setCarteiraDeTrabalho("2323");
-		docProfissional.setPis("232323");
-		restTemplate.postForEntity("/profissional", dados, String.class);
-		ResponseEntity<Profissional> response = restTemplate.exchange("/profissional/7", HttpMethod.GET, null,
+		docProfissional.setCarteiraDeTrabalho("12345678953");
+		docProfissional.setPis("12345678986");
+		dados.setDocumentos(documentos);
+		
+		dados.setDocumentosProfissionais(docProfissional);
+		ResponseEntity<Profissional> response = restTemplate.exchange("/profissional/2", HttpMethod.GET, null,
 				Profissional.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
@@ -200,13 +219,12 @@ class ProfissionalControllerTest {
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		assertNull(response.getBody());
 	}
-	
+
 	@Test
 	void testaAtualizacaoDoProfissionalComDadosInvalidos() {
 		Profissional dados = criarProfissional();
 		Profissional invalido = criarProfissionalParaAtualizar();
 		invalido.setId(24l);
-		
 
 		restTemplate.postForEntity("/profissional", dados, Profissional.class);
 		ResponseEntity<Profissional> response = restTemplate.exchange("/profissional", HttpMethod.PUT,
@@ -216,28 +234,29 @@ class ProfissionalControllerTest {
 	}
 
 	@Test
-	@DisplayName("Excluir por id: Deve retornar no_content caso o exista o cidadao")
-	void testeDeletarCidadaoValido() {
-
-		criarProfissional();
-
-		ResponseEntity<Cidadao> response = restTemplate.exchange("/profissional/6", HttpMethod.DELETE, null,
-				Cidadao.class);
+	@DisplayName("Excluir por id: Deve retornar no_content caso o exista o Profissional")
+	void testeDeletarProfissionalValido() {
+		Profissional profissional = criarProfissional();
+		Documento docs = new Documento();
+		docs.setCertidaDeNascimento("1224/1293");
+		docs.setCpf("334.543.435-78");
+		docs.setRg("23.312.234-X");
+		profissional.setDocumentos(docs);
+		restTemplate.postForEntity("/profissional", profissional, Profissional.class);
+		ResponseEntity<Profissional> response = restTemplate.exchange("/profissional/1", HttpMethod.DELETE, null,
+				Profissional.class);
 
 		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
 	}
-	
+
 	@Test
-	@DisplayName("Excluir por id: Deve retornar no_content caso o exista o cidadao")
-	void testeDeletarCidadaoInvalido() {
+	@DisplayName("Excluir por id: Deve retornar NOT_FOUND caso não exista o Profissional")
+	void testeDeletarProfissionalInvalido() {
 
-		criarProfissional();
-
-		ResponseEntity<Cidadao> response = restTemplate.exchange("/profissional/50", HttpMethod.DELETE, null,
-				Cidadao.class);
+		ResponseEntity<Profissional> response = restTemplate.exchange("/profissional/55", HttpMethod.DELETE, null,
+				Profissional.class);
 
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 	}
-
 
 }
